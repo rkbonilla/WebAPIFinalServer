@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Press the Color Home</title>
+</head>
+
+<body style="font-family: 'Courier New', Courier, monospace;">
+    <div id="playerScores" style="list-style: decimal; text-align: center;">
+    </div>
+    <script>
+        fetch('/api/getPlayerScores')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const playerScores = document.getElementById('playerScores');
+                playerScores.innerHTML = '';
+                playerScores.innerHTML += `<h1>HIGH SCORES</h1>`;
+                playerScores.innerHTML += `<ol>`;
+                data.forEach(player => {
+                    playerScores.innerHTML += `<li>${player.userName} - ${player.userScore}</li>`;
+                });
+                playerScores.innerHTML += `</ol>`;
+            })
+            .catch(err => console.log(err));
+    </script>
+</body>
+
+</html>
