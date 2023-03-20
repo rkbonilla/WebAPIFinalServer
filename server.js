@@ -78,7 +78,42 @@ app.post("/api/savePlayerScore", function (req, res) {
         .then(function () {
             console.log("Player saved.");
         })
-})
+});
+
+// delete all objects within the PlayerScores collection
+app.delete("/api/deletePlayerScores", function (req, res) {
+    PlayerScores.deleteMany().then(function () {
+        console.log("All player scores deleted.");
+    }).catch(function (error) {
+        res.sendStatus(404);
+    })
+});
+
+// delete a specific player score
+app.delete("/api/deletePlayerScore/:id", function (req, res) {
+    PlayerScores.deleteOne({ _id: req.params.id }).then(function () {
+        console.log("Player score deleted.");
+        //reload page
+    }).catch(function (error) {
+        res.sendStatus(404);
+    })
+});
+
+// update a specific player score
+app.put("/api/updatePlayerScore/:id", function (req, res) {
+    PlayerScores.findOne({ _id: req.params.id }).then(function (score) {
+        score.userName = req.body.userName;
+        score.userScore = req.body.userScore;
+
+        score.save().then(function () {
+            console.log("Player score updated.");
+        }).catch(function (error) {
+            res.sendStatus(404);
+        })
+    }).catch(function (error) {
+        res.sendStatus(404);
+    })
+});
 
 // static files
 app.use(express.static(__dirname + "/pages"));

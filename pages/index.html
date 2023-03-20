@@ -22,6 +22,8 @@
                 playerScores.innerHTML += `<ol>`;
                 data.forEach(player => {
                     playerScores.innerHTML += `<li>${player.userName} - ${player.userScore}</li>`;
+                    // add a delete button for each player score that will delete the player score from the database when clicked on
+                    playerScores.innerHTML += `<button onclick="fetch('/api/deletePlayerScore/${player._id}', {method: 'DELETE'})">Delete</button>`;
                 });
                 playerScores.innerHTML += `</ol>`;
             })
